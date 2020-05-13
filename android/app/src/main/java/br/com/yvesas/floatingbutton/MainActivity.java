@@ -50,6 +50,9 @@ public class MainActivity extends FlutterActivity {
                         case "hide":
                             FloatWindow.get().hide();
                             break;
+                        case "showing":
+                            result.success(FloatWindow.get().isShowing());
+                            break;
                         default:
                             result.notImplemented();
                     };
@@ -58,6 +61,12 @@ public class MainActivity extends FlutterActivity {
     }
 
 //    @Override
+//    protected void onDestroy() {
+//        FloatWindow.destroy();
+//        super.onDestroy();
+//    }
+
+    //    @Override
 //    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
 //        super.configureFlutterEngine(flutterEngine);
 //        MethodChannel channel = new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL);
@@ -70,6 +79,7 @@ public class MainActivity extends FlutterActivity {
 //                            imageView.setImageResource(R.drawable.mario);
 //
 //                            FloatWindow.with(getApplicationContext())
+//                                    .setView(imageView)
 //                                    .setWidth(Screen.width, 0.15f)
 //                                    .setHeight(Screen.width, 0.15f)
 //                                    .setX(Screen.width, 0.8f)

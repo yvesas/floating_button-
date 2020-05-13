@@ -30,6 +30,7 @@ class _HomeState extends State<Home> {
   static const plataform = const MethodChannel("floating_btn");
 
   int count = 0;
+  String isShowing = 'false';
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _HomeState extends State<Home> {
             });
         }
     });
+
   }
 
   @override
@@ -65,14 +67,34 @@ class _HomeState extends State<Home> {
             RaisedButton(
               child: Text("Show"),
               onPressed: () {
-                plataform.invokeListMethod("show");
+                  plataform.invokeListMethod("show");
               },
             ),
             RaisedButton(
               child: Text("Hide"),
               onPressed: () {
-                plataform.invokeListMethod("hide");
+                plataform.invokeMethod("hide");
               },
+            ),
+            RaisedButton(
+              child: Text("has Showing?"),
+              onPressed: () {
+                plataform.invokeListMethod("showing").then((value){
+                    print(value);
+                    setState(() {
+                      isShowing = value as String;
+                    });
+                });
+              },
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'Visivel: ',
+                style: TextStyle(fontSize:20, color: Colors.blueAccent),
+                children: <TextSpan>[
+                  TextSpan(text: "$isShowing", style: TextStyle(fontWeight: FontWeight.bold))
+                ],
+              ),
             )
           ],
         ),
