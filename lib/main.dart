@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,8 +26,57 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  static const plataform = const MethodChannel("floating_btn");
+
+  int count = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+    plataform.setMethodCallHandler((call){
+        if(call.method == "touch"){
+            setState(() {
+              count += 1;
+            });
+        }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: Text("Floating Button"),
+      centerTitle: true),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text("$count", textAlign: TextAlign.center, style: TextStyle(fontSize:50)),
+            RaisedButton(
+              child: Text("Create"),
+              onPressed: (){
+                plataform.invokeListMethod("create");
+              },
+            ),
+            RaisedButton(
+              child: Text("Show"),
+              onPressed: () {
+                plataform.invokeListMethod("show");
+              },
+            ),
+            RaisedButton(
+              child: Text("Hide"),
+              onPressed: () {
+                plataform.invokeListMethod("hide");
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
